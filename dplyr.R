@@ -35,3 +35,20 @@ interviews%>%group_by(village)%>%filter(memb_assoc=="yes")%>%summarize(mean_no_m
 interviews%>%group_by(village,memb_assoc)%>%summarize(mean_no_membrs=mean(no_membrs)) #mean people per village and their membership status
 interviews%>%group_by(village,memb_assoc)%>%summarize(mean_no_membrs=mean(no_membrs),min_members=min(no_membrs)) #same as above indlucing the min number as well
 
+#count
+
+interviews%>%count(village) #to count how many entries there are for each
+interviews%>%count(village,sort=TRUE) #same as above but sorted
+
+#exercise
+#Use group_by() and summarize() to find the mean, min, 
+#and max number of household members for each village. Also, add the number of observations.
+#Hint: see ?n
+
+?n #help menu for n: the number of obs in current group
+
+interviews%>%group_by(village)%>%summarize(mean_no_membrs=mean(no_membrs), min_members=min(no_membrs), max_members=max(no_membrs))
+
+interviews%>%group_by(village)%>%summarize(mean_no_membrs=mean(no_membrs), min_members=min(no_membrs), max_members=max(no_membrs),n=n())
+
+                                           
