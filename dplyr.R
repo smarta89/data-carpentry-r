@@ -51,4 +51,27 @@ interviews%>%group_by(village)%>%summarize(mean_no_membrs=mean(no_membrs), min_m
 
 interviews%>%group_by(village)%>%summarize(mean_no_membrs=mean(no_membrs), min_members=min(no_membrs), max_members=max(no_membrs),n=n())
 
-                                           
+# Reshaping 
+
+interviews<-(interviews%>%mutate(wall_type_logical=TRUE)%>%spread(key=respondent_wall_type,value=wall_type_logical,fill=FALSE))
+#to view each variable in a seperate column, including changeing missing values to FALSE
+
+interviews<-interviews%>%gather(key=respndent_wall_type, value="wall_type_logical",burntbricks:sunbricks) #to regather seperated things in previous step
+
+#prepare
+interviews<-read_csv("data/SAFI_clean.csv",na="NULL") #reload original dataset to get fresh start for plotting
+
+interviews_plotting<-interviews%>%
+  mutate(split_items=strsplit(items_owned,";"))%>%
+  unnest()%>%
+  mutate(items_owned_logical=TRUE)%>%
+  spread(key=split_items,value=items_owned_logical,fill=FALSE)%>%
+  rename(no_listed_items='<NA>')%>%
+  mutate(split_months=strsplit(months_lack_food,";"))%>%
+  unnest()%>%
+  mutate(months_lack_food_logical=TRUE)%>%
+  spread(key=split_months,value=months_lack_food_logical,fill=FALSE)%>%
+  mutate(number_months_lack_food=rowSums(select(.,Apr:Sept)))%>%
+  mutate(number_items=rowSums(select(.,bicycle:television)))
+
+write_csv(interviews_plotting,path"data_output")
