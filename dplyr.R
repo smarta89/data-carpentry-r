@@ -73,5 +73,8 @@ interviews_plotting<-interviews%>%
   spread(key=split_months,value=months_lack_food_logical,fill=FALSE)%>%
   mutate(number_months_lack_food=rowSums(select(.,Apr:Sept)))%>%
   mutate(number_items=rowSums(select(.,bicycle:television)))
+#unnest to split up lists of items in columns, spread to put each in own column, mutate to split items up, fill to fill in blank spaces, rename to create a column for people with no items
 
-write_csv(interviews_plotting,path="data_output/interviews_plotting.csv")
+write_csv(interviews_plotting,path="data_output/interviews_plotting.csv") #to create csv file can be opend in excel
+
+
