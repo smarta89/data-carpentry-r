@@ -74,4 +74,4 @@ interviews_plotting<-interviews%>%
   mutate(number_months_lack_food=rowSums(select(.,Apr:Sept)))%>%
   mutate(number_items=rowSums(select(.,bicycle:television)))
 
-write_csv(interviews_plotting,path"data_output")
+write_csv(interviews_plotting,path="data_output/interviews_plotting.csv")
