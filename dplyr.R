@@ -26,3 +26,12 @@ interviews%>%filter(memb_assoc=="yes")%>%select(affect_conflicts, liv_count, no_
 
 interviews<-interviews%>%mutate(people_per_room=no_membrs/rooms) #interviews<- used to add this data to this particular table
 
+#group by
+
+mean(interviews$no_membrs)
+interviews%>%group_by(village) #to specify variables in data to distinguish between groups, eg group data by village. for this to work it must also be piped
+interviews%>%group_by(village)%>%summarize(mean_no_membrs=mean(no_membrs)) #to get the mean no members for each village
+interviews%>%group_by(village)%>%filter(memb_assoc=="yes")%>%summarize(mean_no_membrs=mean(no_membrs)) #mean members per cvillage with associations
+interviews%>%group_by(village,memb_assoc)%>%summarize(mean_no_membrs=mean(no_membrs)) #mean people per village and their membership status
+interviews%>%group_by(village,memb_assoc)%>%summarize(mean_no_membrs=mean(no_membrs),min_members=min(no_membrs)) #same as above indlucing the min number as well
+
